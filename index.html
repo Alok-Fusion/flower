@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To the sweetest person</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            flex-direction: column;
+            padding: 0; /* Ensures no extra spacing */
+        }
+
+        svg {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: none;
+            top: 10px; /* Position the SVG at the top */
+        }
+
+        @keyframes sway {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(10px);
+            }
+        }
+
+        .stem {
+            stroke: white;
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .leaf {
+            stroke: #41e325; /* Green leaf */
+            fill: #41e325; /* Green fill */
+        }
+
+        .flower {
+            fill: #ADD8E6; /* Light blue */
+            stroke: #ADD8E6;
+        }
+
+        .center {
+            fill: yellow;
+            stroke: yellow;
+        }
+
+        .text {
+            font-family: 'Dancing Script', cursive; /* Handwritten style */
+            font-size: 25px;
+            fill: white;
+            text-anchor: middle;
+            transform: translateY(20px) rotate(-10deg); /* Adds slight rotation and spacing */
+            opacity: 0; /* Initially hidden */
+        }
+
+        /* Style for the heart button */
+        .heart-button {
+            background: transparent;
+            border: none;
+            font-size: 100px;
+            color: red;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transform-origin: center;
+        }
+
+        .heart-button:focus {
+            outline: none;
+        }
+
+        /* Heart animation effect */
+        @keyframes heart-beat {
+            0% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(2);
+            }
+            50% {
+                transform: scale(1);
+            }
+            75% {
+                transform: scale(2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .heart-button:hover {
+            animation: heart-beat 3s ease-in-out infinite; /* infinite makes it repeat on hover */
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <audio id="background-music" src="love.mp3" type="audio/mp3" loop></audio>
+    <script>
+        window.onload = function() {
+            document.querySelector("svg").style.display = 'none';
+            document.querySelector(".text").style.opacity = 0;
+        };
+
+        function startFlowerAndMusic() {
+            document.querySelector(".heart-button").style.display = 'none';
+            document.querySelector("svg").style.display = 'block';
+            var audio = document.getElementById('background-music');
+            audio.play();
+            const tl = gsap.timeline();
+            tl.fromTo(".stem", {
+                strokeDasharray: 0,
+                strokeDashoffset: 0,
+                autoAlpha: 0,
+                y: 1000 // starts from below the viewport
+            }, {
+                duration: 2,
+                y: 0, 
+                strokeDasharray: 500,
+                strokeDashoffset: 0,
+                autoAlpha: 1
+            })
+            .fromTo(".leaf", {
+                autoAlpha: 0,
+                scale: 0,
+                transformOrigin: "center"
+            }, {
+                duration: 1.5,
+                autoAlpha: 1,
+                scale: 1,
+                stagger: 0.2
+            })
+
+            .fromTo(".flower", {
+                scale: 0,
+                transformOrigin: "center"
+            }, {
+                duration: 2,
+                scale: 1,
+                ease: "elastic.out(1, 0.5)",
+                stagger: 0.3
+            })
+
+            // Flower center animation - center grows after petals
+            .fromTo(".center", {
+                scale: 0,
+                transformOrigin: "center"
+            }, {
+                duration: 1.5,
+                scale: 1,
+                ease: "elastic.out(1, 0.5)"
+            })
+            .to(".text", {
+                opacity: 1,
+                duration: 3,
+                ease: "power2.out"
+            });
+        }
+    </script>
+    
+
+    <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <path class="stem" id="stem1" d="M250,400 C260,300 240,200 250,100" />
+        <path class="leaf" id="leaf1" d="M250,300 Q270,250 300,280" />
+        <path class="leaf" id="leaf2" d="M250,300 Q230,250 200,280" />
+        <circle class="flower" cx="250" cy="70" r="30" />
+        <circle class="flower" cx="250" cy="130" r="30" />
+        <circle class="flower" cx="220" cy="100" r="30" />
+        <circle class="flower" cx="280" cy="100" r="30" />
+        <circle class="center" cx="250" cy="100" r="20" />
+
+        <path class="stem" id="stem2" d="M150,400 C160,300 140,200 150,100" />
+        <path class="leaf" id="leaf3" d="M150,300 Q170,250 200,280" />
+        <path class="leaf" id="leaf4" d="M150,300 Q130,250 100,280" />
+        <circle class="flower" cx="150" cy="70" r="30" transform="rotate(-15 150 70)" />
+        <circle class="flower" cx="150" cy="130" r="30" transform="rotate(-15 150 130)" />
+        <circle class="flower" cx="120" cy="100" r="30" transform="rotate(-15 120 100)" />
+        <circle class="flower" cx="180" cy="100" r="30" transform="rotate(-15 180 100)" />
+        <circle class="center" cx="150" cy="100" r="20" />
+
+        <path class="stem" id="stem3" d="M350,400 C360,300 340,200 350,100" />
+        <path class="leaf" id="leaf5" d="M350,300 Q370,250 400,280" />
+        <path class="leaf" id="leaf6" d="M350,300 Q330,250 300,280" />
+        <circle class="flower" cx="350" cy="70" r="30" transform="rotate(15 350 70)" />
+        <circle class="flower" cx="350" cy="130" r="30" transform="rotate(15 350 130)" />
+        <circle class="flower" cx="320" cy="100" r="30" transform="rotate(15 320 100)" />
+        <circle class="flower" cx="380" cy="100" r="30" transform="rotate(15 380 100)" />
+        <circle class="center" cx="350" cy="100" r="20" />
+
+        <path class="stem" id="stem4" d="M100,350 C110,250 90,150 100,50" />
+        <path class="leaf" id="leaf7" d="M100,250 Q120,200 150,230" />
+        <path class="leaf" id="leaf8" d="M100,250 Q80,200 50,230" />
+        <circle class="flower" cx="100" cy="20" r="30" transform="rotate(10 100 20)" />
+        <circle class="flower" cx="100" cy="80" r="30" transform="rotate(10 100 80)" />
+        <circle class="flower" cx="70" cy="50" r="30" transform="rotate(10 70 50)" />
+        <circle class="flower" cx="130" cy="50" r="30" transform="rotate(10 130 50)" />
+        <circle class="center" cx="100" cy="50" r="20" />
+
+        <path class="stem" id="stem5" d="M400,350 C410,250 390,150 400,50" />
+        <path class="leaf" id="leaf9" d="M400,250 Q420,200 450,230" />
+        <path class="leaf" id="leaf10" d="M400,250 Q380,200 350,230" />
+        <circle class="flower" cx="400" cy="20" r="30" transform="rotate(-10 400 20)" />
+        <circle class="flower" cx="400" cy="80" r="30" transform="rotate(-10 400 80)" />
+        <circle class="flower" cx="370" cy="50" r="30" transform="rotate(-10 370 50)" />
+        <circle class="flower" cx="430" cy="50" r="30" transform="rotate(-10 430 50)" />
+        <circle class="center" cx="400" cy="50" r="20" />
+
+        <text class="text" x="380" y="480">To the sweetest person &#9829;</text>
+
+    </svg>
+
+    <button class="heart-button" onclick="startFlowerAndMusic()">&#10084;</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</body>
+</html>
